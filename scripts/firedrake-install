@@ -1287,7 +1287,19 @@ if mode == "install":
 
     # Install VTK9 (for fun)
     if True:
-        run_pip_install(["--extra-index-url", "https://www.vtk.org/files/release/9.0", "vtk"])
+        output = check_output([*pip, "debug", "-v"])
+        system_list = output.split('Compatible tags:')[1].split()[1:]
+        package = "vtk-9.0.0rc3"
+        for system in system_list:
+            wheel = package + "-" + system + ".whl"
+            print("Trying: ", wheel)
+            try:
+                run_pip_install(["https://www.vtk.org/files/release/9.0/"+wheel])
+                print("Success")
+            except:
+                print("Failed")
+        else:
+            print("Unable to install VTK 9 wheel")
 
 petsc_dir, petsc_arch = get_petsc_dir()
 
