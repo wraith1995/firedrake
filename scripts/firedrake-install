@@ -1296,6 +1296,7 @@ if mode == "install":
             try:
                 run_pip_install(["https://www.vtk.org/files/release/9.0/"+wheel])
                 print("Success")
+                break
             except:
                 print("Failed")
         else:
