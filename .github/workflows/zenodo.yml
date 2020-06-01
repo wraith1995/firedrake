@@ -1,0 +1,24 @@
+name: Zenodo canary
+
+on: [push]
+jobs:
+  test-zenodo-canary:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+        with:
+          fetch-depth: 1
+      - name: Setup Python
+        uses: actions/setup-python@v1
+        with:
+          python-version: 3.6
+      - name: Zenodo API canary
+        run: |
+          pip install requests
+          python scripts/firedrake-install --test-doi-resolution
+      - name: Upload log
+        uses: actions/upload-artifact@master
+        if: failure()
+        with:
+          name: "zenodo-canary"
+          path: firedrake-install.log
