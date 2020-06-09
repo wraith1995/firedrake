@@ -6,6 +6,6 @@ ipython
 matplotlib
 pylint
 randomgen==1.16.4
-vtk>=9
+vtk>=9.0
 pkgconfig
 cached_property
