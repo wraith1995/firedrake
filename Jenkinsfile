@@ -10,7 +10,7 @@ pipeline {
   environment {
     FIREDRAKE_CI_TESTS = "1"
     DOCKER_CREDENTIALS = credentials('f52ccab9-5250-4b17-9fb6-c3f1ebdcc986')
-    PETSC_CONFIGURE_OPTIONS = "--with-make-np=11"
+    PETSC_CONFIGURE_OPTIONS = "--with-make-np=11 --download-mpich-device=ch3:sock"
   }
   stages {
     stage('Clean') {
