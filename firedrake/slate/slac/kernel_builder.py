@@ -443,7 +443,7 @@ class LocalLoopyKernelBuilder(object):
         and integral type information.
         """
 
-        return compile_terminal_form(terminal, prefix="subkernel%s_" % terminal._output_string,
+        return compile_terminal_form(terminal, prefix="subkernel_",
                                      tsfc_parameters=self.tsfc_parameters, coffee=False)
 
     def shape(self, tensor):
