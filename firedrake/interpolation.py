@@ -305,7 +305,14 @@ def _interpolator(V, tensor, expr, subset, arguments, access):
     for coefficient in coefficients:
         m_ = coefficient.cell_node_map()
         if isinstance(mesh.topology, firedrake.mesh.VertexOnlyMeshTopology):
-            m_ = op2.ComposedMap([m_, mesh.cell_parent_cell_map])
+            # manually build map from vertex only mesh cell to parent cell nodes
+            iterset = mesh.cell_parent_cell_map.iterset
+            toset = coefficient.cell_node_map().toset
+            assert mesh.cell_parent_cell_map.arity == 1
+            arity = coefficient.cell_node_map().arity
+            values = coefficient.cell_node_map().values[mesh.cell_parent_cell_map.values.squeeze()]
+            assert values.shape == (iterset.size, arity)
+            m_ = op2.Map(iterset, toset, arity, values)
         parloop_args.append(coefficient.dat(op2.READ, m_))
 
     for o in coefficients:
